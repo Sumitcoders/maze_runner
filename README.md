@@ -11,6 +11,7 @@ not to be copied
 ®all right reserved regarding this game
 
 Not to be published without permission
-@Sumitcoders
+
+[@Sumitcoders](https://github.com/Sumitcoders/)
 
 Keep coding!
