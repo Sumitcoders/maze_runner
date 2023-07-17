@@ -2,12 +2,12 @@ from turtle import position
 from ursina import *
 #@Sumitcoders
 
-level = int(input("Select diffuciulty level:\n1:easy\n2:medium\n3:hard\n"))
+level = int(input("Select diffuciulty level:\n1:easy\n2:medium\n3:hard\n4:a bit hard\n5:xtreme hard\n"))
 if level == 1:
     __camera_level_alevtion__ = -10
 elif level == 2:
     __camera_level_alevtion__ = -7
-elif level == 3:
+elif level >= 3:
     __camera_level_alevtion__ = -5
 
 
@@ -47,9 +47,15 @@ def button_pressed():
     if app.level == 1:
         if map[9][28] == 5:
             map[4][25] = 0
-           
+
 
 def update():
+    if level < 4:
+        c.speed = 0
+        c.y = -100
+    
+    
+    
     p.xcor = p.X+24
     p.ycor = 9 - p.Y
     de = time.dt
@@ -143,6 +149,29 @@ def coll():
             if held_keys['space']:
                 p.x = -23
                 p.y = -9
+    hit = c.intersects()
+    if hit.hit:
+        c.chasing = False
+        c.h -= int(1)
+
+    if c.h < 0:
+        p.speed = 0
+    else:
+        c.chasing = True
+    p.xc = c.x-p.x
+    p.yc = c.y-p.y
+    if c.chasing == True:
+        if p.xc < -0.1:
+            c.x = c.x + c.speed*time.dt
+        elif p.xc > 0.1:
+            c.x = c.x - c.speed*time.dt
+        if p.yc < -0.1:
+            c.y = c.y + c.speed*time.dt
+        elif p.yc > 0.1:
+            c.y = c.y - c.speed*time.dt
+    
+    
+    
         
         
 
@@ -175,27 +204,34 @@ map = [
 
 
 
-p = Entity(model = 'circle', color = color.red, scale = 0.5, collider = 'sphere', position = Vec3(0,0,0))
+p = Entity(model = 'circle', color = color.blue, scale = 0.5, collider = 'sphere', position = Vec3(0,0,0))
 p.u = True
 p.d = True
 p.l = True
 p.r = True
-p.speed = 8
+p.speed = 6
 
 
-u = Entity(model = 'quad', color = color.red,scale = 0.05)
-d = Entity(model = 'quad', color = color.red,scale = 0.05)
-l = Entity(model = 'quad', color = color.red,scale = 0.05)
-r = Entity(model = 'quad', color = color.red,scale = 0.05)
+u = Entity(model = 'quad', color = color.blue,scale = 0.05)
+d = Entity(model = 'quad', color = color.blue,scale = 0.05)
+l = Entity(model = 'quad', color = color.blue,scale = 0.05)
+r = Entity(model = 'quad', color = color.blue,scale = 0.05)
 u.visible = False
 r.visible = False
 l.visible = False
 d.visible = False
 
 
+c = Entity(model = 'circle', color = color.red, scale = 0.5, collider = 'sphere', position = Vec3(-3,0,0))
+c.speed = 2
+
+c.chasing = True
+if level >4:
+    c.h = int(10)
 
 
 
+c.h = int(15)
 
 
 
